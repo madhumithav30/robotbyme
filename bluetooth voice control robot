@@ -1,0 +1,92 @@
+const int motor_input1=11;
+const int motor_input2=10;
+const int motor_input3=5;
+const int motor_input4=6;
+const int ir1=3;        
+const int led=9;
+const int buzzer =8;      
+String voice;
+int val1;
+ 
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(motor_input1, OUTPUT);   //RIGHT MOTOR
+  pinMode(motor_input2, OUTPUT);   //RIGHT MOTOR
+  pinMode(motor_input3, OUTPUT);   //LEFT MOTOR
+  pinMode(motor_input4, OUTPUT);   //LEFT MOTOR
+  pinMode(ir1,INPUT);              //SENSOR
+  pinMode(led,OUTPUT);
+  pinMode(buzzer,OUTPUT);
+}
+void loop() 
+{  
+  val1=digitalRead(ir1);
+  while(Serial.available()>0)
+  {
+    delay(10);
+    char c=Serial.read();
+    if(c=='#')
+    {
+      break;
+    }
+    voice+=c;
+    }
+   if(voice=="forward"){
+    digitalWrite(led,LOW);
+    digitalWrite(buzzer,LOW);
+    digitalWrite(motor_input1, LOW);
+    digitalWrite(motor_input2, HIGH);
+    digitalWrite(motor_input3, LOW);
+    digitalWrite(motor_input4, HIGH);
+     delay(5000);
+    }
+  else
+    if(voice=="back"){
+    digitalWrite(led,LOW);
+    digitalWrite(buzzer,LOW);
+    digitalWrite(motor_input1, HIGH);
+    digitalWrite(motor_input2, LOW);
+    digitalWrite(motor_input3, HIGH);
+    digitalWrite(motor_input4, LOW);  
+    delay(5000);}
+  else
+   if(voice=="left"){
+    digitalWrite(led,LOW);
+    digitalWrite(buzzer,LOW);
+    digitalWrite(motor_input1, LOW);
+    digitalWrite(motor_input2, HIGH);
+    digitalWrite(motor_input3, HIGH);
+    digitalWrite(motor_input4, LOW);
+    delay(300); 
+    }
+  else
+   if(voice=="right"){
+    digitalWrite(led,LOW);
+    digitalWrite(buzzer,LOW);
+    digitalWrite(motor_input1, HIGH);
+    digitalWrite(motor_input2, LOW);
+    digitalWrite(motor_input3, LOW);
+    digitalWrite(motor_input4, HIGH);
+    delay(300);   }
+   if(voice.length()>0)
+    {
+      Serial.println(voice);
+       voice="";
+    digitalWrite(motor_input1, LOW);
+    digitalWrite(motor_input2, LOW);
+    digitalWrite(motor_input3, LOW);
+    digitalWrite(motor_input4, LOW);
+    }
+
+    
+    
+   if(val1==LOW)
+   { digitalWrite(led,HIGH);
+     digitalWrite(buzzer,HIGH);
+    digitalWrite(motor_input1, LOW);
+    digitalWrite(motor_input2, LOW);
+    digitalWrite(motor_input3, LOW);
+    digitalWrite(motor_input4, LOW);
+   }
+   }
